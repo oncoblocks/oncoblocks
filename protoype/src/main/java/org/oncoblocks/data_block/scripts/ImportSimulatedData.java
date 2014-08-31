@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ImportSimulatedData {
             } else {
                 numParticipants = new Integer(args[0]);
             }
+            Date start = new Date();
             GeneMongo geneMongo = new GeneMongo();
             if (geneMongo.getNumGenes() == 0) {
                 System.out.println("Gene data is not in the database.  Load first.");
@@ -35,6 +37,9 @@ public class ImportSimulatedData {
             }
             importSimulatedData(numParticipants);
             System.out.println("---------------------");
+            Date stop = new Date();
+            long interval = stop.getTime() - start.getTime();
+            System.out.println("Total time to load:  " + interval + " ms");
         } catch (Throwable t) {
             t.printStackTrace();
             System.exit(-1);

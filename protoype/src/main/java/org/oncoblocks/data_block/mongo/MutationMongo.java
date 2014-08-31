@@ -30,7 +30,7 @@ public class MutationMongo {
     public void addMutation(Mutation mutation) {
         Gson gson = new Gson();
         String json = gson.toJson(mutation);
-        System.out.println("Saving:  " + json);
+        //  System.out.println("Saving:  " + json);
         DBObject dbObject = (DBObject) com.mongodb.util.JSON.parse(json);
         this.collection.save(dbObject);
     }
