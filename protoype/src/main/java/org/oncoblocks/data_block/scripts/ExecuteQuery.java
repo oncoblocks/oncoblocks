@@ -25,10 +25,14 @@ public class ExecuteQuery {
             Date start = new Date();
             String queryName = args[0];
             String id = args[1];
+            Date createConnection = null;
             if (queryName.equalsIgnoreCase("get_mutations")) {
                 try {
                     Long entrezGeneId = Long.parseLong(id);
                     MutationMongo mutationMongo = new MutationMongo();
+                    createConnection = new Date();
+                    long interval = createConnection.getTime() - start.getTime();
+                    System.out.println("Total time to create MongoDB Connection:  " + interval + " ms");
                     ArrayList<Mutation> mutationList =
                         mutationMongo.getMutationsByEntrezId(entrezGeneId);
                     System.out.println("Total number of hits:  " + mutationList.size());
@@ -44,8 +48,8 @@ public class ExecuteQuery {
                 System.exit(1);
             }
             Date stop = new Date();
-            long interval = stop.getTime() - start.getTime();
-            System.out.println("Total time to query:  " + interval + " ms");
+            long interval = stop.getTime() - createConnection.getTime();
+            System.out.println("Total time to execute query:  " + interval + " ms");
         }
     }
 
