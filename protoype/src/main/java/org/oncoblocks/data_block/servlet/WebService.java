@@ -36,11 +36,24 @@ public class WebService extends HttpServlet {
             writeJson(resp, cancerStudyList);
         } else if (query.equalsIgnoreCase("get_mutations")) {
             String entrezId = req.getParameter("entrez_id");
-            if (entrezId != null) {
+            String geneSymbol = req.getParameter("gene_symbol");
+            if (entrezId != null && entrezId.length() > 0) {
                 Long entrezIdLong = Long.parseLong(req.getParameter("entrez_id"));
                 MutationMongo mutationMongo = new MutationMongo();
                 ArrayList<Mutation> mutationList = mutationMongo.getMutationsByEntrezId(entrezIdLong);
                 writeJson(resp, mutationList);
+            } else if (geneSymbol != null) {
+                System.out.println("Got gene symbol:  " + geneSymbol);
+                GeneMongo geneMongo = new GeneMongo();
+                ArrayList<Gene> geneList = geneMongo.getGeneBySymbol(geneSymbol);
+                System.out.println("Got gene list:  " + geneList.size());
+                if (geneList != null && geneList.size() > 0) {
+                    Gene gene = geneList.get(0);
+                    System.out.println("Got gene:  " + gene);
+                    MutationMongo mutationMongo = new MutationMongo();
+                    ArrayList<Mutation> mutationList = mutationMongo.getMutationsByEntrezId(gene.getEntrezGeneId());
+                    writeJson(resp, mutationList);
+                }
             } else {
                 String caseId = req.getParameter("case_id");
                 MutationMongo mutationMongo = new MutationMongo();
