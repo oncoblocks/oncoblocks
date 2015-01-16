@@ -21,6 +21,8 @@ public class MutationMongo {
     public MutationMongo() throws UnknownHostException {
         DB db = DatabaseConnection.getInstanceClass().getDatabaseConnection();
         this.collection = db.getCollection(MUTATION_COLLECTION);
+        collection.createIndex(new BasicDBObject("entrezGeneId", 1));
+        collection.createIndex(new BasicDBObject("caseId", 1));
     }
 
     /**
