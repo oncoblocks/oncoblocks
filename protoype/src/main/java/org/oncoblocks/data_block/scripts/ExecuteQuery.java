@@ -26,11 +26,11 @@ public class ExecuteQuery {
             String queryName = args[0];
             String id = args[1];
             Date createConnection = null;
+            MutationMongo mutationMongo = new MutationMongo();
+            createConnection = new Date();
             if (queryName.equalsIgnoreCase("get_mutations")) {
                 try {
                     Long entrezGeneId = Long.parseLong(id);
-                    MutationMongo mutationMongo = new MutationMongo();
-                    createConnection = new Date();
                     long interval = createConnection.getTime() - start.getTime();
                     System.out.println("Total time to create MongoDB Connection:  " + interval + " ms");
                     ArrayList<Mutation> mutationList =
@@ -38,7 +38,6 @@ public class ExecuteQuery {
                     System.out.println("Total number of hits:  " + mutationList.size());
                     //writeJson(mutationList);
                 } catch (NumberFormatException e) {
-                    MutationMongo mutationMongo = new MutationMongo();
                     ArrayList<Mutation> mutationList = mutationMongo.getMutationsByCaseIdId(id);
                     System.out.println("Total number of hits:  " + mutationList.size());
                     //writeJson(mutationList);

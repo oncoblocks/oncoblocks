@@ -52,7 +52,7 @@ public class ImportMutationData {
     private static CancerStudy getCancerStudy(File file) throws UnknownHostException {
         //  File name looks like this:  blca_tcga.maf.txt
         String parts[] = file.getName().split("\\.");
-        String cancerNameKey = parts[0];
+        String cancerNameKey = parts[0].split("_")[0];
         CancerStudyMongo cancerStudyMongo = new CancerStudyMongo();
         CancerStudy cancerStudy = cancerStudyMongo.getCancerStudyByKey(cancerNameKey);
         if (cancerStudy == null) {
