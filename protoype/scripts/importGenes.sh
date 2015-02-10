@@ -1,1 +1,1 @@
-mvn -e -q -f ../pom.xml exec:java -Dexec.mainClass="org.oncoblocks.data_block.scripts.ImportGeneData" -Dexec.args="$1 $2 $2"
+mvn -e -q -f ../pom.xml exec:java -Dexec.mainClass="org.oncoblocks.data_block.scripts.ImportGeneData" -Dexec.args="$1"
