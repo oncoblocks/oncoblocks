@@ -17,7 +17,6 @@ The prototype is currently very simple.  It stores mutation data to MongoDB and 
 ## Running Unit Tests
 
 Run:
-
 	mvn test
 	
 ## Loading up Sample Data
