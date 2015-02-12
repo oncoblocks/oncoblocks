@@ -7,8 +7,8 @@ import java.net.UnknownHostException;
 public class DatabaseConnection {
     public static final String DB_NAME = "cgds";
     private static DatabaseConnection con = null;
-    private static DB db=null;
-    private static MongoClient mongoClient;
+    private DB db=null;
+    private MongoClient mongoClient;
 
     private DatabaseConnection() throws UnknownHostException {
         MongoOptions options = new MongoOptions();
@@ -17,7 +17,7 @@ public class DatabaseConnection {
         options.socketKeepAlive = true;
         options.threadsAllowedToBlockForConnectionMultiplier = 50;
 
-        MongoClient mongoClient = new MongoClient();
+        this.mongoClient = new MongoClient();
         this.db = mongoClient.getDB(DB_NAME);
     }
 
@@ -30,5 +30,9 @@ public class DatabaseConnection {
 
     public DB getDatabaseConnection(){
         return db;
+    }
+    
+    public MongoClient getMongoClient() {
+    	return mongoClient;
     }
 }
