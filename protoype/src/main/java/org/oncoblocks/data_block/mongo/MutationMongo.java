@@ -13,16 +13,21 @@ import java.util.ArrayList;
 public class MutationMongo {
     private static final String MUTATION_COLLECTION = "mutations";
     private DBCollection collection;
+    private static BulkWriteOperation bulk;
+    private static DB db;
+    private static MongoClient mongoClient;
 
     /**
      * Default constructor.
      * @throws java.net.UnknownHostException Unknown Mongo DB Host.
      */
     public MutationMongo() throws UnknownHostException {
-        DB db = DatabaseConnection.getInstanceClass().getDatabaseConnection();
+    	this.mongoClient = DatabaseConnection.getInstanceClass().getMongoClient();
+        this.db = DatabaseConnection.getInstanceClass().getDatabaseConnection();
         this.collection = db.getCollection(MUTATION_COLLECTION);
-        collection.createIndex(new BasicDBObject("entrezGeneId", 1));
-        collection.createIndex(new BasicDBObject("caseId", 1));
+        this.bulk = collection.initializeUnorderedBulkOperation();
+//        collection.createIndex(new BasicDBObject("entrezGeneId", 1));
+//        collection.createIndex(new BasicDBObject("caseId", 1));
     }
 
     /**
@@ -34,7 +39,12 @@ public class MutationMongo {
         String json = gson.toJson(mutation);
         //  System.out.println("Saving:  " + json);
         DBObject dbObject = (DBObject) com.mongodb.util.JSON.parse(json);
-        this.collection.save(dbObject);
+        bulk.insert(dbObject);
+    }
+    
+    public void commitInsertions() {
+    	bulk.execute(WriteConcern.UNACKNOWLEDGED);
+    	mongoClient.close();
     }
 
     /**
