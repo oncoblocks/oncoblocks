@@ -19,8 +19,11 @@ import java.util.List;
  * Command Line Tool to Import Large Sets of Simulated Data.
  */
 public class ImportSimulatedData {
+	private static MutationMongo mutationMongo;
+
 
     public static void main(String args[]) throws IOException {
+    	mutationMongo = new MutationMongo();
         try {
             Integer numParticipants = 100;
             if (args.length < 1) {
@@ -36,10 +39,12 @@ public class ImportSimulatedData {
                 System.exit(-1);
             }
             importSimulatedData(numParticipants);
+            mutationMongo.commitInsertions();
             System.out.println("---------------------");
             Date stop = new Date();
             long interval = stop.getTime() - start.getTime();
             System.out.println("Total time to load:  " + interval + " ms");
+            System.out.println("---------------------");
         } catch (Throwable t) {
             t.printStackTrace();
             System.exit(-1);
@@ -58,7 +63,6 @@ public class ImportSimulatedData {
     private static void storeMutationRecord(int partipantIndex, int geneIndex)
         throws UnknownHostException {
         Mutation mutation = new Mutation();
-        MutationMongo mutationMongo = new MutationMongo();
         mutation.setCancerStudyKey("SIMULATED_CANCER_STUDY_1");
         mutation.setEntrezId(geneIndex);
         mutation.setAminoAcidChange("V600E");
