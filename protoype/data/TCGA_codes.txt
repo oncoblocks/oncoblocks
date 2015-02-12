@@ -1,2 +1,0 @@
-Study Abbreviation	Study Name
-OV	Ovarian serous cystadenocarcinoma
