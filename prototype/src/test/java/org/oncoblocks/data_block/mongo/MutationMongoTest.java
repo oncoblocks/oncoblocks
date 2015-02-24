@@ -17,8 +17,8 @@ public class MutationMongoTest extends TestCase {
         for (int i=0; i<100; i++) {
             Mutation mutation = new Mutation();
             mutation.setCancerStudyKey("brca_tcga");
-            mutation.setEntrezId(675);
-            mutation.setAminoAcidChange("V600E");
+            mutation.setEntrezGeneId(675);
+            mutation.setAaChange("V600E");
             mutationMongo.addMutation(mutation);
         }
 

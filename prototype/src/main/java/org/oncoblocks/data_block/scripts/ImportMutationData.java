@@ -1,7 +1,5 @@
 package org.oncoblocks.data_block.scripts;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.oncoblocks.data_block.model.*;
 import org.oncoblocks.data_block.mongo.CancerStudyMongo;
 import org.oncoblocks.data_block.mongo.GeneMongo;
@@ -100,7 +98,7 @@ public class ImportMutationData {
         return Integer.parseInt(parts[1]);
     }
 
-    private static void storeMutationRecord(MafRecord mafRecord, CancerStudy cancerStudy) throws JsonGenerationException, JsonMappingException, IOException {
+    private static void storeMutationRecord(MafRecord mafRecord, CancerStudy cancerStudy) throws IOException {
         Mutation mutation = new Mutation();
         GeneMongo mongoGene = new GeneMongo();
         MutationMongo mutationMongo = new MutationMongo();

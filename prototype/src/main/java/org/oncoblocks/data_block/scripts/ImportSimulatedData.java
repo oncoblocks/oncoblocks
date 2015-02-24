@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.oncoblocks.data_block.model.Mutation;
 import org.oncoblocks.data_block.mongo.MutationMongo;
 
@@ -63,7 +61,7 @@ public class ImportSimulatedData {
      * Stores a single Mutation Record with Simulated, Random Data.
      */
     private static void storeMutationRecord(int partipantIndex, int geneIndex)
-        throws JsonGenerationException, JsonMappingException, IOException {
+        throws IOException {
         Mutation mutation = new Mutation();
         mutation.setCancerStudyKey("SIMULATED_CANCER_STUDY_1");
         mutation.setEntrezGeneId(randomGenerator.nextInt(20000));

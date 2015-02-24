@@ -3,9 +3,6 @@ package org.oncoblocks.data_block.mongo;
 import com.google.gson.Gson;
 import com.mongodb.*;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.mongodb.morphia.Datastore;
 import org.oncoblocks.data_block.model.Mutation;
 
@@ -44,8 +41,7 @@ public class MutationMongo {
      * @throws JsonMappingException 
      * @throws JsonGenerationException 
      */
-    public void addMutation(Mutation mutation)
-    		throws JsonGenerationException, JsonMappingException, IOException {
+    public void addMutation(Mutation mutation) {
 //        Gson gson = new Gson();
 //        String json = gson.toJson(mutation);
 //        DBObject dbObject = (DBObject) com.mongodb.util.JSON.parse(json);
