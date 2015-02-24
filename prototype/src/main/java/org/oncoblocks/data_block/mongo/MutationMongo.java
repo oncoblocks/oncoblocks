@@ -16,9 +16,7 @@ import java.util.ArrayList;
 public class MutationMongo {
     private static final String MUTATION_COLLECTION = "mutations";
     private DBCollection collection;
-    private BulkWriteOperation bulk;
     private DB db;
-    private MongoClient mongoClient;
     private Datastore dataStore;
 
     /**
@@ -27,11 +25,9 @@ public class MutationMongo {
      */
     public MutationMongo() throws UnknownHostException {
     		DatabaseConnection dbConnection = DatabaseConnection.getInstanceClass();
-    		this.mongoClient = dbConnection.getMongoClient();
         this.db = dbConnection.getDatabase();
         this.dataStore = dbConnection.getDataStore();
         this.collection = db.getCollection(MUTATION_COLLECTION);
-        this.bulk = collection.initializeUnorderedBulkOperation();
     }
 
     /**
@@ -42,19 +38,13 @@ public class MutationMongo {
      * @throws JsonGenerationException 
      */
     public void addMutation(Mutation mutation) {
-//        Gson gson = new Gson();
-//        String json = gson.toJson(mutation);
-//        DBObject dbObject = (DBObject) com.mongodb.util.JSON.parse(json);
-//    	  ObjectMapper mapper = new ObjectMapper();
-//    	  String json = mapper.writeValueAsString(mutation);
-//    	  DBObject dbObject = (DBObject) com.mongodb.util.JSON.parse(json);
+		//Gson gson = new Gson();
+		//String json = gson.toJson(mutation);
+		//DBObject dbObject = (DBObject) com.mongodb.util.JSON.parse(json);
+		//ObjectMapper mapper = new ObjectMapper();
+		//String json = mapper.writeValueAsString(mutation);
+		//DBObject dbObject = (DBObject) com.mongodb.util.JSON.parse(json);
         dataStore.save(mutation);
-    }
-    
-    public void commitInsertions() {
-//    		dataStore.save(mutationList);
-//	    	bulk.execute(WriteConcern.UNACKNOWLEDGED);
-//	    	mongoClient.close();
     }
 
     /**
@@ -97,7 +87,7 @@ public class MutationMongo {
     }
 
     /**
-     * Delete all Gene Records in the Database.
+     * Deletes all Records in the Database.
      */
     public void deleteAllRecords() {
         collection.drop();

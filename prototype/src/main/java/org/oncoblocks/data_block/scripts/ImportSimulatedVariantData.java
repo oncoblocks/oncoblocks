@@ -10,7 +10,7 @@ import org.oncoblocks.data_block.mongo.MutationMongo;
 /**
  * Command Line Tool to Import Large Sets of Simulated Data.
  */
-public class ImportSimulatedData {
+public class ImportSimulatedVariantData {
 	private static MutationMongo mutationMongo;
 	private static Random randomGenerator = new Random();
 	
@@ -36,7 +36,6 @@ public class ImportSimulatedData {
             }
             Date start = new Date();
             importSimulatedData(numParticipants);
-            mutationMongo.commitInsertions();
             System.out.println("---------------------");
             Date stop = new Date();
             long interval = stop.getTime() - start.getTime();
