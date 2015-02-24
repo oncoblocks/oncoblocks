@@ -1,222 +1,304 @@
 package org.oncoblocks.data_block.model;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Indexed;
+
 /**
  * Encapsulates Details regarding a Single Mutation Record.
  */
+@Entity("mutations")
 public class Mutation {
-    private static final String GERMLINE = "germline";
-    private String cancerStudyKey;
-    private String caseId;
-    private long entrezGeneId;
-    private String mutationStatus;
-    private String validationStatus;
-    private String chr;
-    private long startPosition;
-    private long endPosition;
-    private String aminoAcidChange;
-    private String variantClassification;
-    private String uniprotEntryName;
-    private String uniprotProteinPositionStart;
-    private String uniprotProteinPositionEnd;
-    private String uniprotReferenceProteinAllele;
-    private String uniprotObservedProteinAllele;
+	@Id private ObjectId id;
+	@Indexed private String cancerStudyKey;
+	@Indexed private String caseId;
+	@Indexed private long entrezGeneId;
+	private String geneSymbol;
+	private String referenceGenome;
+	private String chromosome;
+	private Integer dnaStartPosition;
+	private Integer dnaEndPosition;
+	private String strand;
+	private String variantClassification;
+	private String variantType;
+	private String referenceAllele;
+	private String variantAllele;
+	private Integer alternativeAlleleReads;
+	private Integer referenceAlleleReads;
+	private String dbSnpRsId;
+	private String dbSnpRsValStatus;
+	private String annotationTranscript;
+	private String transcriptStrand;
+	private String cDnaChange;
+	private String codonChange;
+	private String aaChange;
+	private String otherTranscript;
+	private String refseqMrnaId;
+	private String refseqProtId;
+	private String swissprotAccession;
+	private String swissprotEntry;
+	private String uniprotAaPosition;
+	private String uniprotRegion;
+	private String uniprotSite;
+	private String vertebrateAaAlignment;
 
     public Mutation() {
     }
 
-    /**
-     * Constructor.
-     *
-     * @param entrezGeneId     Entrez Gene ID.
-     * @param validationStatus Validation Status,  e.g. Valid or Unknown.
-     * @param mutationStatus   Mutation Status, e.g. Somatic or Germline.
-     * @param mutationType     Mutation Type, e.g. Nonsense_Mutation, Frame_Shift_Del, etc.
-     */
-    public Mutation(long entrezGeneId, String validationStatus, String mutationStatus, String mutationType) {
-        this.entrezGeneId = entrezGeneId;
-        this.mutationStatus = mutationStatus;
-        this.validationStatus = validationStatus;
-        this.variantClassification = mutationType;
-    }
+	public ObjectId getId() {
+		return id;
+	}
 
-    /**
-     * Gets the Mutations Status, e.g. Somatic or Germline.
-     *
-     * @return mutation status, e.g. Somatic or Germline.
-     */
-    public String getMutationStatus() {
-        return mutationStatus;
-    }
+	public void setId(ObjectId id) {
+		this.id = id;
+	}
 
-    public String getKey() {
-        return caseId + ":" + this.entrezGeneId + ":" + aminoAcidChange;
-    }
+	public String getCancerStudyKey() {
+		return cancerStudyKey;
+	}
 
-    /**
-     * Sets the Mutation Status, e.g. Somatic or Germline.
-     *
-     * @param mutationStatus mutation status, e.g. Somatic or Germline.
-     */
-    public void setMutationStatus(String mutationStatus) {
-        this.mutationStatus = mutationStatus;
-    }
+	public void setCancerStudyKey(String cancerStudyKey) {
+		this.cancerStudyKey = cancerStudyKey;
+	}
 
-    /**
-     * Sets the Validation Status, e.g. Valid or Unknown.
-     *
-     * @param validationStatus validation status, e.g. Valid or Unknown.
-     */
-    public void setValidationStatus(String validationStatus) {
-        this.validationStatus = validationStatus;
-    }
+	public String getCaseId() {
+		return caseId;
+	}
 
-    /**
-     * Gets the Validation Status, e.g. Valid or Unknown.
-     *
-     * @return validation status, e.g. Valid or Unknown.
-     */
-    public String getValidationStatus() {
-        return validationStatus;
-    }
+	public void setCaseId(String caseId) {
+		this.caseId = caseId;
+	}
 
-    /**
-     * Sets the Variant Classification, e.g. Nonsense_Mutation, Frame_Shift_Del, etc.
-     *
-     * @param variantClassification mutation type, e.g. Nonsense_Mutation, Frame_Shift_Del, etc.
-     */
-    public void setVariantClassification(String variantClassification) {
-        this.variantClassification = variantClassification;
-    }
+	public long getEntrezGeneId() {
+		return entrezGeneId;
+	}
 
-    /**
-     * Gets the Mutation Type, e.g. Nonsense_Mutation, Frame_Shift_Del, etc.
-     *
-     * @return mutation type, e.g. Nonsense_Mutation, Frame_Shift_Del, etc.
-     */
-    public String getVariantClassification() {
-        return variantClassification;
-    }
+	public void setEntrezGeneId(long entrezGeneId) {
+		this.entrezGeneId = entrezGeneId;
+	}
 
-    public String getCancerStudyId() {
-        return cancerStudyKey;
-    }
+	public String getGeneSymbol() {
+		return geneSymbol;
+	}
 
-    public void setCancerStudyKey(String cancerStudyKey) {
-        this.cancerStudyKey = cancerStudyKey;
-    }
+	public void setGeneSymbol(String geneSymbol) {
+		this.geneSymbol = geneSymbol;
+	}
 
-    public String getCaseId() {
-        return caseId;
-    }
+	public String getReferenceGenome() {
+		return referenceGenome;
+	}
 
-    public void setCaseId(String caseId) {
-        this.caseId = caseId;
-    }
+	public void setReferenceGenome(String referenceGenome) {
+		this.referenceGenome = referenceGenome;
+	}
 
-    public String getChr() {
-        return chr;
-    }
+	public String getChromosome() {
+		return chromosome;
+	}
 
-    public void setChr(String chr) {
-        this.chr = chr;
-    }
+	public void setChromosome(String chromosome) {
+		this.chromosome = chromosome;
+	}
 
-    public long getStartPosition() {
-        return startPosition;
-    }
+	public Integer getDnaStartPosition() {
+		return dnaStartPosition;
+	}
 
-    public void setStartPosition(long startPosition) {
-        this.startPosition = startPosition;
-    }
+	public void setDnaStartPosition(Integer dnaStartPosition) {
+		this.dnaStartPosition = dnaStartPosition;
+	}
 
-    public long getEndPosition() {
-        return endPosition;
-    }
+	public Integer getDnaEndPosition() {
+		return dnaEndPosition;
+	}
 
-    public void setEndPosition(long endPosition) {
-        this.endPosition = endPosition;
-    }
+	public void setDnaEndPosition(Integer dnaEndPosition) {
+		this.dnaEndPosition = dnaEndPosition;
+	}
 
-    public String getAminoAcidChange() {
-        return aminoAcidChange;
-    }
+	public String getStrand() {
+		return strand;
+	}
 
-    public void setAminoAcidChange(String aminoAcidChange) {
-        this.aminoAcidChange = aminoAcidChange;
-    }
+	public void setStrand(String strand) {
+		this.strand = strand;
+	}
 
-    public int getAminoAcidPosition() {
-        String aaChange = getAminoAcidChange();
-        if (aaChange != null) {
-            aaChange = aaChange.replace(".", "");
+	public String getVariantClassification() {
+		return variantClassification;
+	}
 
-            //  Remove letters
-            String aaPosition = aaChange.replaceAll("[^\\d.]", "");
+	public void setVariantClassification(String variantClassification) {
+		this.variantClassification = variantClassification;
+	}
 
-            //  Then, try to parse the integer position
-            try {
-                return Integer.parseInt(aaPosition);
-            } catch (NumberFormatException e) {
-                return -1;
-            }
-        } else {
-            return -1;
-        }
-    }
+	public String getVariantType() {
+		return variantType;
+	}
 
-    public void setEntrezId(long entrezGeneId) {
-        this.entrezGeneId = entrezGeneId;
-    }
+	public void setVariantType(String variantType) {
+		this.variantType = variantType;
+	}
 
-    public long getEntrezGeneId() {
-        return entrezGeneId;
-    }
+	public String getReferenceAllele() {
+		return referenceAllele;
+	}
 
-    public String getUniprotEntryName() {
-        return uniprotEntryName;
-    }
+	public void setReferenceAllele(String referenceAllele) {
+		this.referenceAllele = referenceAllele;
+	}
 
-    public void setUniprotEntryName(String uniprotEntryName) {
-        this.uniprotEntryName = uniprotEntryName;
-    }
+	public String getVariantAllele() {
+		return variantAllele;
+	}
 
-    public String getUniprotProteinPositionStart() {
-        return uniprotProteinPositionStart;
-    }
+	public void setVariantAllele(String variantAllele) {
+		this.variantAllele = variantAllele;
+	}
 
-    public int getUniprotProteinAAPosition() {
-        try {
-            return Integer.parseInt(uniprotProteinPositionStart);
-        } catch (NumberFormatException e) {
-            return -1;
-        }
-    }
+	public Integer getAlternativeAlleleReads() {
+		return alternativeAlleleReads;
+	}
 
-    public void setUniprotProteinPositionStart(String uniprotProteinPositionStart) {
-        this.uniprotProteinPositionStart = uniprotProteinPositionStart;
-    }
+	public void setAlternativeAlleleReads(Integer alternativeAlleleReads) {
+		this.alternativeAlleleReads = alternativeAlleleReads;
+	}
 
-    public String getUniprotProteinPositionEnd() {
-        return uniprotProteinPositionEnd;
-    }
+	public Integer getReferenceAlleleReads() {
+		return referenceAlleleReads;
+	}
 
-    public void setUniprotProteinPositionEnd(String uniprotProteinPositionEnd) {
-        this.uniprotProteinPositionEnd = uniprotProteinPositionEnd;
-    }
+	public void setReferenceAlleleReads(Integer referenceAlleleReads) {
+		this.referenceAlleleReads = referenceAlleleReads;
+	}
 
-    public String getUniprotReferenceProteinAllele() {
-        return uniprotReferenceProteinAllele;
-    }
+	public String getDbSnpRsId() {
+		return dbSnpRsId;
+	}
 
-    public void setUniprotReferenceProteinAllele(String uniprotReferenceProteinAllele) {
-        this.uniprotReferenceProteinAllele = uniprotReferenceProteinAllele;
-    }
+	public void setDbSnpRsId(String dbSnpRsId) {
+		this.dbSnpRsId = dbSnpRsId;
+	}
 
-    public String getUniprotObservedProteinAllele() {
-        return uniprotObservedProteinAllele;
-    }
+	public String getDbSnpRsValStatus() {
+		return dbSnpRsValStatus;
+	}
 
-    public void setUniprotObservedProteinAllele(String uniprotObservedProteinAllele) {
-        this.uniprotObservedProteinAllele = uniprotObservedProteinAllele;
-    }
+	public void setDbSnpRsValStatus(String dbSnpRsValStatus) {
+		this.dbSnpRsValStatus = dbSnpRsValStatus;
+	}
+
+	public String getAnnotationTranscript() {
+		return annotationTranscript;
+	}
+
+	public void setAnnotationTranscript(String annotationTranscript) {
+		this.annotationTranscript = annotationTranscript;
+	}
+
+	public String getTranscriptStrand() {
+		return transcriptStrand;
+	}
+
+	public void setTranscriptStrand(String transcriptStrand) {
+		this.transcriptStrand = transcriptStrand;
+	}
+
+	public String getcDnaChange() {
+		return cDnaChange;
+	}
+
+	public void setcDnaChange(String cDnaChange) {
+		this.cDnaChange = cDnaChange;
+	}
+
+	public String getCodonChange() {
+		return codonChange;
+	}
+
+	public void setCodonChange(String codonChange) {
+		this.codonChange = codonChange;
+	}
+
+	public String getAaChange() {
+		return aaChange;
+	}
+
+	public void setAaChange(String aaChange) {
+		this.aaChange = aaChange;
+	}
+
+	public String getOtherTranscript() {
+		return otherTranscript;
+	}
+
+	public void setOtherTranscript(String otherTranscript) {
+		this.otherTranscript = otherTranscript;
+	}
+
+	public String getRefseqMrnaId() {
+		return refseqMrnaId;
+	}
+
+	public void setRefseqMrnaId(String refseqMrnaId) {
+		this.refseqMrnaId = refseqMrnaId;
+	}
+
+	public String getRefseqProtId() {
+		return refseqProtId;
+	}
+
+	public void setRefseqProtId(String refseqProtId) {
+		this.refseqProtId = refseqProtId;
+	}
+
+	public String getSwissprotAccession() {
+		return swissprotAccession;
+	}
+
+	public void setSwissprotAccession(String swissprotAccession) {
+		this.swissprotAccession = swissprotAccession;
+	}
+
+	public String getSwissprotEntry() {
+		return swissprotEntry;
+	}
+
+	public void setSwissprotEntry(String swissprotEntry) {
+		this.swissprotEntry = swissprotEntry;
+	}
+
+	public String getUniprotAaPosition() {
+		return uniprotAaPosition;
+	}
+
+	public void setUniprotAaPosition(String uniprotAaPosition) {
+		this.uniprotAaPosition = uniprotAaPosition;
+	}
+
+	public String getUniprotRegion() {
+		return uniprotRegion;
+	}
+
+	public void setUniprotRegion(String uniprotRegion) {
+		this.uniprotRegion = uniprotRegion;
+	}
+
+	public String getUniprotSite() {
+		return uniprotSite;
+	}
+
+	public void setUniprotSite(String uniprotSite) {
+		this.uniprotSite = uniprotSite;
+	}
+
+	public String getVertebrateAaAlignment() {
+		return vertebrateAaAlignment;
+	}
+
+	public void setVertebrateAaAlignment(String vertebrateAaAlignment) {
+		this.vertebrateAaAlignment = vertebrateAaAlignment;
+	}
 }
