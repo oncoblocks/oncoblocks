@@ -59,5 +59,10 @@
       <artifactId>argparse4j</artifactId>
       <version>0.4.2</version>
     </dependency>
+	<dependency>
+	    <groupId>org.mongodb.morphia</groupId>
+    		<artifactId>morphia</artifactId>
+    		<version>0.110</version>
+	</dependency>	
   </dependencies>
 </project>
