@@ -8,7 +8,7 @@ import org.oncoblocks.data_block.model.Mutation;
 import org.oncoblocks.data_block.mongo.MutationMongo;
 
 /**
- * Command Line Tool to Import Large Sets of Simulated Data.
+ * Command Line Tool to Import Large Sets of Simulated Variant Data.
  */
 public class ImportSimulatedVariantData {
 	private static MutationMongo mutationMongo;
@@ -22,14 +22,14 @@ public class ImportSimulatedVariantData {
 	 * Based on 511 patient cases from six WES studies;  total number of mutations:  258,226
 	 * (includes synonymous and non-synonymous mutations).
 	 */
-	private static final int NUM_MUTATIONS_PER_PATIENT = 506;
+	private static final int NUM_MUTATIONS_PER_TUMOR = 506;
 
     public static void main(String args[]) throws IOException {
-    	mutationMongo = new MutationMongo();
+    		mutationMongo = new MutationMongo();
         try {
             Integer numParticipants = 0;
             if (args.length < 1) {
-                System.out.println("Usage:  importSimulatedData.sh <num_participants>");
+                System.out.println("Usage:  importSimulatedVariantData.sh <num_participants>");
                 System.exit(-1);
             } else {
                 numParticipants = new Integer(args[0]);
@@ -50,7 +50,7 @@ public class ImportSimulatedVariantData {
     private static void importSimulatedData(int numParticipants) throws IOException {
         for (int i = 0; i< numParticipants; i++) {
             System.out.println("Adding data for participant #" + i);
-            for (int j = 0; j < NUM_MUTATIONS_PER_PATIENT; j++) {
+            for (int j = 0; j < NUM_MUTATIONS_PER_TUMOR; j++) {
                 storeMutationRecord(i, j);
             }
         }
