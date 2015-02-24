@@ -1,31 +1,35 @@
 package org.oncoblocks.data_block.scripts;
 
-import org.oncoblocks.data_block.model.*;
-import org.oncoblocks.data_block.mongo.CancerStudyMongo;
-import org.oncoblocks.data_block.mongo.GeneMongo;
-import org.oncoblocks.data_block.mongo.MutationMongo;
-import org.oncoblocks.data_block.util.MafUtil;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Random;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.oncoblocks.data_block.model.Mutation;
+import org.oncoblocks.data_block.mongo.MutationMongo;
 
 /**
  * Command Line Tool to Import Large Sets of Simulated Data.
  */
 public class ImportSimulatedData {
 	private static MutationMongo mutationMongo;
-
+	private static Random randomGenerator = new Random();
+	
+	/**
+	 * Source:  Elizier M. Van Allen, et. al, "Whole-exome sequencing and clinical intepretation
+	 * of formalin-fixed, parrafix-embedded tumor samples to guide precision cancer medicine.
+	 * Nature Medicine, June 2014.
+	 * 
+	 * Based on 511 patient cases from six WES studies;  total number of mutations:  258,226
+	 * (includes synonymous and non-synonymous mutations).
+	 */
+	private static final int NUM_MUTATIONS_PER_PATIENT = 506;
 
     public static void main(String args[]) throws IOException {
     	mutationMongo = new MutationMongo();
         try {
-            Integer numParticipants = 100;
+            Integer numParticipants = 0;
             if (args.length < 1) {
                 System.out.println("Usage:  importSimulatedData.sh <num_participants>");
                 System.exit(-1);
@@ -33,11 +37,6 @@ public class ImportSimulatedData {
                 numParticipants = new Integer(args[0]);
             }
             Date start = new Date();
-            GeneMongo geneMongo = new GeneMongo();
-            if (geneMongo.getNumGenes() == 0) {
-                System.out.println("Gene data is not in the database.  Load first.");
-                System.exit(-1);
-            }
             importSimulatedData(numParticipants);
             mutationMongo.commitInsertions();
             System.out.println("---------------------");
@@ -54,30 +53,51 @@ public class ImportSimulatedData {
     private static void importSimulatedData(int numParticipants) throws IOException {
         for (int i = 0; i< numParticipants; i++) {
             System.out.println("Adding data for participant #" + i);
-            for (int j = 0; j < 200; j++) {
+            for (int j = 0; j < NUM_MUTATIONS_PER_PATIENT; j++) {
                 storeMutationRecord(i, j);
             }
         }
     }
 
+    /**
+     * Stores a single Mutation Record with Simulated, Random Data.
+     */
     private static void storeMutationRecord(int partipantIndex, int geneIndex)
-        throws UnknownHostException {
+        throws JsonGenerationException, JsonMappingException, IOException {
         Mutation mutation = new Mutation();
         mutation.setCancerStudyKey("SIMULATED_CANCER_STUDY_1");
-        mutation.setEntrezId(geneIndex);
-        mutation.setAminoAcidChange("V600E");
+        mutation.setEntrezGeneId(randomGenerator.nextInt(20000));
+        mutation.setAaChange("V600_" + randomGenerator.nextInt(20000));
         mutation.setCaseId("SIMULATED_" +  + partipantIndex);
-        mutation.setChr("1");
-        mutation.setStartPosition(600);
-        mutation.setEndPosition(600);
-        mutation.setMutationStatus("SOMATIC");
-        mutation.setVariantClassification("MISSENSE");
-        mutation.setValidationStatus("VALIDATED");
-        mutation.setUniprotEntryName("PROTEIN_A");
-        mutation.setUniprotProteinPositionStart("600");
-        mutation.setUniprotProteinPositionEnd("600");
-        mutation.setUniprotReferenceProteinAllele("V");
-        mutation.setUniprotObservedProteinAllele("E");
+        mutation.setAlternativeAlleleReads(randomGenerator.nextInt(300));
+        mutation.setAnnotationTranscript("transcript_"+ randomGenerator.nextInt(20000));
+        mutation.setcDnaChange("dna_change_" + randomGenerator.nextInt(20000));
+        mutation.setChromosome("chr" + randomGenerator.nextInt(26));
+        mutation.setCodonChange("codon_change_" + randomGenerator.nextInt(20000));
+        mutation.setDbSnpRsId("db_snp_id" + randomGenerator.nextInt(20000));
+        mutation.setDbSnpRsValStatus("db_rs_" + randomGenerator.nextInt(20000));
+        mutation.setDbSnpRsValStatus("db_snp_val_" + randomGenerator.nextInt(20000));
+        mutation.setDnaEndPosition(randomGenerator.nextInt(20000));
+        mutation.setDnaStartPosition(randomGenerator.nextInt(20000));
+        mutation.setGeneSymbol("gene_" + randomGenerator.nextInt(20000));
+        mutation.setOtherTranscript("other_" + randomGenerator.nextInt(20000));
+        mutation.setReferenceAllele("ref_" + randomGenerator.nextInt(20000));
+        mutation.setReferenceAlleleReads(randomGenerator.nextInt(300));
+        mutation.setReferenceGenome("hg_" + randomGenerator.nextInt(12));
+        mutation.setRefseqMrnaId("mrna_" + randomGenerator.nextInt(20000));
+        mutation.setRefseqProtId("ref_seq_" + randomGenerator.nextInt(20000));
+        mutation.setStrand("strand_" + randomGenerator.nextInt(2));
+        mutation.setSwissprotAccession("swiss_prot_" + randomGenerator.nextInt(20000));
+        mutation.setSwissprotEntry("swiss_prot_entry_" + randomGenerator.nextInt(20000));
+        mutation.setTranscriptStrand("transcript_strand_" + randomGenerator.nextInt(2));
+        mutation.setUniprotAaPosition("uniprot_aa_" + randomGenerator.nextInt(20000));
+        mutation.setUniprotRegion("region_" + randomGenerator.nextInt(20000));
+        mutation.setUniprotSite("site_" + randomGenerator.nextInt(20000));
+        mutation.setVariantAllele("variant_allele_"+ randomGenerator.nextInt(20000));
+        mutation.setVariantClassification("variant_classification_" + randomGenerator.nextInt(25));
+        mutation.setVertebrateAaAlignment("align_" + randomGenerator.nextInt(20000));
         mutationMongo.addMutation(mutation);
     }
+    
+    
 }

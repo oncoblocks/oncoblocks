@@ -4,23 +4,36 @@ import com.mongodb.*;
 
 import java.net.UnknownHostException;
 
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+import org.oncoblocks.data_block.model.Mutation;
+
 public class DatabaseConnection {
     public static final String DB_NAME = "cgds";
     private static DatabaseConnection con = null;
     private DB db=null;
     private MongoClient mongoClient;
+    private Morphia morphia;
+    private Datastore ds;
 
+    /**
+     * Private Constructor, to ensure Singleton pattern.
+     * @throws UnknownHostException
+     */
     private DatabaseConnection() throws UnknownHostException {
-        MongoOptions options = new MongoOptions();
-        options.connectionsPerHost = 100;
-        options.maxWaitTime = 2000;
-        options.socketKeepAlive = true;
-        options.threadsAllowedToBlockForConnectionMultiplier = 50;
-
         this.mongoClient = new MongoClient();
         this.db = mongoClient.getDB(DB_NAME);
+        this.morphia = new Morphia();
+        this.morphia.map(Mutation.class);
+        this.ds = morphia.createDatastore(mongoClient, DB_NAME);
+        this.ds.setDefaultWriteConcern(WriteConcern.UNACKNOWLEDGED);
     }
 
+    	/**
+    	 * Returns Singleton Instance.
+    	 * @return DatabaseConnection.
+    	 * @throws UnknownHostException
+    	 */
     public static synchronized DatabaseConnection getInstanceClass() throws UnknownHostException {
         if(con==null) {
             con=new DatabaseConnection();
@@ -28,11 +41,15 @@ public class DatabaseConnection {
         return con;
     }
 
-    public DB getDatabaseConnection(){
+    public DB getDatabase(){
         return db;
     }
     
     public MongoClient getMongoClient() {
-    	return mongoClient;
+    		return mongoClient;
+    }
+    
+    public Datastore getDataStore() {
+    		return ds;
     }
 }

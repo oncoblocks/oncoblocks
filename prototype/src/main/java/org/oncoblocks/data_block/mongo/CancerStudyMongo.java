@@ -20,7 +20,7 @@ public class CancerStudyMongo {
      * @throws java.net.UnknownHostException Unknown Mongo DB Host.
      */
     public CancerStudyMongo() throws UnknownHostException {
-        DB db = DatabaseConnection.getInstanceClass().getDatabaseConnection();
+        DB db = DatabaseConnection.getInstanceClass().getDatabase();
         this.collection = db.getCollection(CANCER_STUDY_COLLECTION);
     }
 

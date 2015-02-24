@@ -19,7 +19,7 @@ public class GeneMongo {
      * @throws UnknownHostException Unknown Mongo DB Host.
      */
     public GeneMongo() throws UnknownHostException {
-        DB db = DatabaseConnection.getInstanceClass().getDatabaseConnection();
+        DB db = DatabaseConnection.getInstanceClass().getDatabase();
         this.collection = db.getCollection(GENE_COLLECTION);
     }
 

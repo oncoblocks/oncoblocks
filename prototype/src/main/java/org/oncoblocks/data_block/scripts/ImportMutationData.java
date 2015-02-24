@@ -1,5 +1,7 @@
 package org.oncoblocks.data_block.scripts;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.oncoblocks.data_block.model.*;
 import org.oncoblocks.data_block.mongo.CancerStudyMongo;
 import org.oncoblocks.data_block.mongo.GeneMongo;
@@ -98,7 +100,7 @@ public class ImportMutationData {
         return Integer.parseInt(parts[1]);
     }
 
-    private static void storeMutationRecord(MafRecord mafRecord, CancerStudy cancerStudy) throws UnknownHostException {
+    private static void storeMutationRecord(MafRecord mafRecord, CancerStudy cancerStudy) throws JsonGenerationException, JsonMappingException, IOException {
         Mutation mutation = new Mutation();
         GeneMongo mongoGene = new GeneMongo();
         MutationMongo mutationMongo = new MutationMongo();
@@ -107,20 +109,20 @@ public class ImportMutationData {
             caseSet.add(mafRecord.getCaseId());
             if (acceptMutation(mafRecord)) {
                 mutation.setCancerStudyKey(cancerStudy.getKey());
-                mutation.setEntrezId(geneList.get(0).getEntrezGeneId());
-                mutation.setAminoAcidChange(mafRecord.getOncoProteinChange());
+                mutation.setEntrezGeneId(geneList.get(0).getEntrezGeneId());
+                mutation.setAaChange(mafRecord.getOncoProteinChange());
                 mutation.setCaseId(mafRecord.getCaseId());
-                mutation.setChr(mafRecord.getChr());
-                mutation.setStartPosition(mafRecord.getStartPosition());
-                mutation.setEndPosition(mafRecord.getEndPosition());
-                mutation.setMutationStatus(mafRecord.getMutationStatus());
-                mutation.setVariantClassification(mafRecord.getOncoVariantClassification());
-                mutation.setValidationStatus(mafRecord.getValidationStatus());
-                mutation.setUniprotEntryName(mafRecord.getOncoUniprotEntryName());
-                mutation.setUniprotProteinPositionStart(mafRecord.getOncoUniprotProteinPositionStart());
-                mutation.setUniprotProteinPositionEnd(mafRecord.getOncoUniprotProteinPositionEnd());
-                mutation.setUniprotReferenceProteinAllele(mafRecord.getOncoReferenceProteinAllele());
-                mutation.setUniprotObservedProteinAllele(mafRecord.getOncoObservedProteinAllele());
+                mutation.setChromosome(mafRecord.getChr());
+//                mutation.setDnaStartPosition(mafRecord.getStartPosition());
+//                mutation.setDnaStopPosition(mafRecord.getEndPosition());
+//                mutation.setMutationStatus(mafRecord.getMutationStatus());
+//                mutation.setVariantClassification(mafRecord.getOncoVariantClassification());
+//                mutation.setValidationStatus(mafRecord.getValidationStatus());
+//                mutation.setUniprotEntryName(mafRecord.getOncoUniprotEntryName());
+//                mutation.setUniprotProteinPositionStart(mafRecord.getOncoUniprotProteinPositionStart());
+//                mutation.setUniprotProteinPositionEnd(mafRecord.getOncoUniprotProteinPositionEnd());
+//                mutation.setUniprotReferenceProteinAllele(mafRecord.getOncoReferenceProteinAllele());
+//                mutation.setUniprotObservedProteinAllele(mafRecord.getOncoObservedProteinAllele());
                 mutationMongo.addMutation(mutation);
                 numMutationStored++;
             }

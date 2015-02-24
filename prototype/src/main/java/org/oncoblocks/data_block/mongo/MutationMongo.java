@@ -2,8 +2,14 @@ package org.oncoblocks.data_block.mongo;
 
 import com.google.gson.Gson;
 import com.mongodb.*;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.mongodb.morphia.Datastore;
 import org.oncoblocks.data_block.model.Mutation;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -13,38 +19,46 @@ import java.util.ArrayList;
 public class MutationMongo {
     private static final String MUTATION_COLLECTION = "mutations";
     private DBCollection collection;
-    private static BulkWriteOperation bulk;
-    private static DB db;
-    private static MongoClient mongoClient;
+    private BulkWriteOperation bulk;
+    private DB db;
+    private MongoClient mongoClient;
+    private Datastore dataStore;
 
     /**
      * Default constructor.
      * @throws java.net.UnknownHostException Unknown Mongo DB Host.
      */
     public MutationMongo() throws UnknownHostException {
-    	this.mongoClient = DatabaseConnection.getInstanceClass().getMongoClient();
-        this.db = DatabaseConnection.getInstanceClass().getDatabaseConnection();
+    		DatabaseConnection dbConnection = DatabaseConnection.getInstanceClass();
+    		this.mongoClient = dbConnection.getMongoClient();
+        this.db = dbConnection.getDatabase();
+        this.dataStore = dbConnection.getDataStore();
         this.collection = db.getCollection(MUTATION_COLLECTION);
         this.bulk = collection.initializeUnorderedBulkOperation();
-//        collection.createIndex(new BasicDBObject("entrezGeneId", 1));
-//        collection.createIndex(new BasicDBObject("caseId", 1));
     }
 
     /**
      * Adds a mutation record to the database.
      * @param mutation Mutation Object.
+     * @throws IOException 
+     * @throws JsonMappingException 
+     * @throws JsonGenerationException 
      */
-    public void addMutation(Mutation mutation) {
-        Gson gson = new Gson();
-        String json = gson.toJson(mutation);
-        //  System.out.println("Saving:  " + json);
-        DBObject dbObject = (DBObject) com.mongodb.util.JSON.parse(json);
-        bulk.insert(dbObject);
+    public void addMutation(Mutation mutation)
+    		throws JsonGenerationException, JsonMappingException, IOException {
+//        Gson gson = new Gson();
+//        String json = gson.toJson(mutation);
+//        DBObject dbObject = (DBObject) com.mongodb.util.JSON.parse(json);
+//    	  ObjectMapper mapper = new ObjectMapper();
+//    	  String json = mapper.writeValueAsString(mutation);
+//    	  DBObject dbObject = (DBObject) com.mongodb.util.JSON.parse(json);
+        dataStore.save(mutation);
     }
     
     public void commitInsertions() {
-    	bulk.execute(WriteConcern.UNACKNOWLEDGED);
-    	mongoClient.close();
+//    		dataStore.save(mutationList);
+//	    	bulk.execute(WriteConcern.UNACKNOWLEDGED);
+//	    	mongoClient.close();
     }
 
     /**
