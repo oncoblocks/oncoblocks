@@ -47,13 +47,11 @@ public class WebService extends HttpServlet {
                 ArrayList<Mutation> mutationList = mutationMongo.getMutationsByEntrezId(entrezIdLong);
                 writeJson(resp, mutationList);
             } else if (geneSymbol != null) {
-                System.out.println("Got gene symbol:  " + geneSymbol);
                 GeneMongo geneMongo = new GeneMongo();
                 ArrayList<Gene> geneList = geneMongo.getGeneBySymbol(geneSymbol);
                 System.out.println("Got gene list:  " + geneList.size());
                 if (geneList != null && geneList.size() > 0) {
                     Gene gene = geneList.get(0);
-                    System.out.println("Got gene:  " + gene);
                     MutationMongo mutationMongo = new MutationMongo();
                     ArrayList<Mutation> mutationList = mutationMongo.getMutationsByEntrezId(gene.getEntrezGeneId());
                     writeJson(resp, mutationList);
@@ -64,6 +62,9 @@ public class WebService extends HttpServlet {
                 ArrayList<Mutation> mutationList = mutationMongo.getMutationsByCaseIdId(caseId);
                 writeJson(resp, mutationList);
             }
+        } else if (query.equalsIgnoreCase("get_patient_bundle")) {
+        		HetViewSimulator hetViewSimulator = new HetViewSimulator();
+    			writeJson(resp, hetViewSimulator.getPatientBundle());
         }
     }
 

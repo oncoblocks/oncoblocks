@@ -42,6 +42,8 @@ public class Mutation {
 	private String uniprotRegion;
 	private String uniprotSite;
 	private String vertebrateAaAlignment;
+	private String tier;
+	private String annotationNotes;
 
     public Mutation() {
     }
@@ -301,4 +303,40 @@ public class Mutation {
 	public void setVertebrateAaAlignment(String vertebrateAaAlignment) {
 		this.vertebrateAaAlignment = vertebrateAaAlignment;
 	}
+
+	/**
+	 * Gets the Tier of this mutation.
+	 * Tier 1 = Clinically actionable.
+	 * Tier 4 = Variant of Unknown Significance.
+	 * @return annotation tier.
+	 */
+	public String getTier() {
+		return tier;
+	}
+
+	/**
+	 * Sets the Tier of this mutation.
+	 * Tier 1 = Clinically actionable.
+	 * Tier 4 = Variant of Unknown Significance.
+	 * @param tier annotation tier.
+	 */
+	public void setTier(String tier) {
+		this.tier = tier;
+	}
+
+	/**
+	 * Gets Annotation Notes.
+	 */
+	public String getAnnotationNotes() {
+		return annotationNotes;
+	}
+
+	/**
+	 * Sets Annotation Notes.
+	 * @param annotationNotes
+	 */
+	public void setAnnotationNotes(String annotationNotes) {
+		this.annotationNotes = annotationNotes;
+	}
+	
 }
