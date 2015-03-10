@@ -18,16 +18,14 @@ public class SignalMongoTest extends TestCase {
         signalMongo.deleteAllRecords();
         for (int i=0; i<100; i++) {
             Signal signal = new Signal();
-            signal.setCaseId("123XYZ");
             signal.setEntrezGeneId(i);
-            signal.setValue(i);
             signalMongo.addSignal(signal);;
         }
 
         long numRecords = signalMongo.getNumSignalRecords();
         assertEquals(100, numRecords);
 
-        ArrayList<Signal> signalList = signalMongo.getMutationsByCaseIdId("123XYZ");
-        assertEquals(100, signalList.size());
+        ArrayList<Signal> signalList = signalMongo.getSignalsByEntrezId(10L);
+        assertEquals(1, signalList.size());
     }
 }
