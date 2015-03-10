@@ -1,6 +1,10 @@
 package org.oncoblocks.data_block.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Indexed;
@@ -13,10 +17,11 @@ import org.mongodb.morphia.annotations.Indexed;
 public class Signal {
 	@Id private ObjectId id;
 	@Indexed private String cancerStudyKey;
-	@Indexed private String caseId;
+	@Indexed private String geneticProfileKey;
 	@Indexed private long entrezGeneId;
 	private int signalType;
-	private double value;
+	
+	private Map<String, Double> valueMap = new HashMap<String, Double>();
 	
     public Signal() {
     }
@@ -37,14 +42,6 @@ public class Signal {
 		this.cancerStudyKey = cancerStudyKey;
 	}
 
-	public String getCaseId() {
-		return caseId;
-	}
-
-	public void setCaseId(String caseId) {
-		this.caseId = caseId;
-	}
-
 	public long getEntrezGeneId() {
 		return entrezGeneId;
 	}
@@ -53,12 +50,20 @@ public class Signal {
 		this.entrezGeneId = entrezGeneId;
 	}
 
-	public double getValue() {
-		return value;
+	public String getGeneticProfileKey() {
+		return geneticProfileKey;
 	}
 
-	public void setValue(double value) {
-		this.value = value;
+	public void setGeneticProfileKey(String geneticProfileId) {
+		this.geneticProfileKey = geneticProfileId;
+	}
+
+	public Map<String, Double> getValueMap() {
+		return valueMap;
+	}
+
+	public void setValueMap(HashMap<String, Double> valueMap) {
+		this.valueMap = valueMap;
 	}
 
 	public int getSignalType() {
