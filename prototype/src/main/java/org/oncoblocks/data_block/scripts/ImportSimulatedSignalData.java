@@ -2,11 +2,10 @@ package org.oncoblocks.data_block.scripts;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
 
-import org.oncoblocks.data_block.model.Mutation;
 import org.oncoblocks.data_block.model.Signal;
-import org.oncoblocks.data_block.mongo.MutationMongo;
 import org.oncoblocks.data_block.mongo.SignalMongo;
 
 /**
@@ -41,23 +40,19 @@ public class ImportSimulatedSignalData {
     }
 
     private static void importSimulatedData(int numParticipants) throws IOException {
-        for (int i = 0; i< numParticipants; i++) {
-            System.out.println("Adding " + NUM_GENES + " signal records for participant #" + i);
-            for (int j = 0; j < NUM_GENES; j++) {
-                storeSignalRecord(i, j);
-            }
+        for (int i = 0; i< NUM_GENES; i++) {
+            System.out.println("Adding signal records for gene #" + i);
+        		Signal signal = new Signal();
+        		signal.setEntrezGeneId(i);
+        		HashMap<String, Double> valueMap = new HashMap<String, Double> ();
+        		for (int j=0; j < numParticipants; j++) {
+        			valueMap.put("CASE_ID_" + j, new Double(randomGenerator.nextInt(100)));
+        		}
+        		signal.setValueMap(valueMap);
+            signal.setCancerStudyKey("SIMULATED_CANCER_STUDY_1");
+            signal.setGeneticProfileKey("SIMULATED_GENETIC_PROFILE_1");
+            signal.setSignalType(1);
+            signalMongo.addSignal(signal);
         }
-    }
-
-    /**
-     * Stores a single Signal Record with Simulated, Random Data.
-     */
-    private static void storeSignalRecord(int partipantIndex, int geneIndex)
-        throws IOException {
-        Signal signal = new Signal();
-        signal.setCancerStudyKey("SIMULATED_CANCER_STUDY_1");
-        signal.setEntrezGeneId(geneIndex);
-        signal.setValue(randomGenerator.nextInt(100));
-        signalMongo.addSignal(signal);
     }
 }
