@@ -15,14 +15,10 @@ public class GeneTest extends TestCase {
         Gene gene = new Gene();
         gene.setStandardGeneSymbol("BRCA1");
         gene.setEntrezGeneId(675);
-        Set<String> aliasSet = new HashSet<String>();
-        aliasSet.add("blah1");
-        aliasSet.add("blah2");
-        gene.setAliases(aliasSet);
 
         Gson gson = new Gson();
         String json = gson.toJson(gene);
-        assertEquals("{\"entrezGeneId\":675,\"standardGeneSymbol\":\"BRCA1\",\"aliases\":[\"blah1\",\"blah2\"]}",
+        assertEquals("{\"entrezGeneId\":675,\"standardGeneSymbol\":\"BRCA1\"}",
                 json);
     }
 }
